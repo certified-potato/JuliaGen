@@ -1,0 +1,73 @@
+﻿<Window x:Class="JuliaGen.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JuliaGen"
+        mc:Ignorable="d"
+        Title="Simple Filled Julia Set Generator" Height="350" Width="525" Icon="julia_set_WS6_icon.ico">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Column="1" LastChildFill="False" Grid.RowSpan="3">
+            <StackPanel DockPanel.Dock="Top">
+                <UniformGrid Rows="1" ToolTip="Maximum value |z| can be before it is not considered part of a Julia set anymore. Larger numbers may give a more precise Julia set, but it will slow down the computation.">
+                    <Label Content="Bailout"/>
+                    <TextBox Name="tbBound" Text="2" LostKeyboardFocus="vbound"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="Maximum amount of time f(z) is called until z is considered part of the julia set. Larger number means more precicion but slower calculation.">
+                    <Label Content="Max. Iter." Grid.Column="0"/>
+                    <TextBox Name="tbMaxIter" Text="100" LostKeyboardFocus="vmaxiter"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="Real range where the julia set will be plotted">
+                    <Label Content="r range" Grid.Column="0"/>
+                    <TextBox Name="tbrmin" Text="-2" LostKeyboardFocus="vrmin"/>
+                    <TextBox Name="tbrmax" Text="2" LostFocus="vrmax"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="Imaginairy range where the julia set will be plotted">
+                    <Label Content="i range" Grid.Column="0"/>
+                    <TextBox Name="tbimin" Text="-2" LostFocus="vimin"/>
+                    <TextBox Name="tbimax" Text="2"  LostFocus="vimax"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="Image width in pixels">
+                    <Label Content="Width" Grid.Column="0"/>
+                    <TextBox Name="tbWidth" Text="100" LostKeyboardFocus="vwidth"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="Image height in pixels">
+                    <Label Content="Height" Grid.Column="0"/>
+                    <TextBox Name="tbHeight" Text="100" LostKeyboardFocus="vheight"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="This defines how quickly the colours outside the julia set change. Zero for single colour">
+                    <Label Content="Colour chng" Grid.Column="0"/>
+                    <TextBox Name="tbcolour" Text="0" LostKeyboardFocus="vcolour"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="Affects colouring">
+                    <Label Content="redshift" Grid.Column="0"/>
+                    <TextBox Name="tbred" Text="0" LostKeyboardFocus="vred"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="Affects colouring">
+                    <Label Content="greenshift" Grid.Column="0"/>
+                    <TextBox Name="tbgreen" Text="0" LostKeyboardFocus="vgreen"/>
+                </UniformGrid>
+                <UniformGrid Rows="1" ToolTip="Affects colouring">
+                    <Label Content="blueshift" Grid.Column="0"/>
+                    <TextBox Name="tbblue" Text="0" LostKeyboardFocus="vblue"/>
+                </UniformGrid>
+            </StackPanel>
+            <Button x:Name="btnGen" DockPanel.Dock="Bottom" Content="Generate" Click="generate" ToolTip="Generate Julia set with the given parameters"/>
+            <Button x:Name="btnSave" DockPanel.Dock="Bottom" Content="Save" Click="save" ToolTip="Save image to disk" IsEnabled="False"/>
+        </DockPanel>
+        <ScrollViewer>
+            <Image x:Name="Screen" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+        </ScrollViewer>
+        <Label x:Name="lbFormulaFormatted" Grid.Row="1" ToolTip="How the formula is interpreted and what the program will use to calculate the julia set."/>
+        <TextBox x:Name="tbFormulaInput" Grid.Row="2" TextChanged="readFormula" Text="1 0 2|0 0,5 0" ToolTip="Polynomial input. It is typed as sets of three numbers, the sets divided by vertical bars (|), numbers themselves by spaces. The first number in a set is the real part of the constant, the second the imaginary, the third is the exponent for z. The factor has to be a positive whole number or zero!"/>
+    </Grid>
+</Window>
